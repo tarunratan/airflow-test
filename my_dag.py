@@ -5,11 +5,12 @@ from random import randint
 from datetime import datetime
 
 def _choose_best_model(ti):
-      ti.xcom_pull(task_ids=[
+      accuracies = ti.xcom_pull(task_ids=[
             'training_model_A',
             'training_model_B',
             'training_model_C'
       ])
+      best_accuracy = max(accuracies)
       if (best_accuracy > 8):
             return 'accurate'
       return 'inaccurate'
