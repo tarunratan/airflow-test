@@ -6,7 +6,7 @@ default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
     'start_date': datetime(2024, 5, 8),
-    'email': ['raviteja.panugundla@gmail.com'],  # Your Airflow email
+    'email': ['tarunratan6@gmail.com'],  # Your Airflow email
     'email_on_failure': True,
     'email_on_retry': False,
     'retries': 1,
@@ -25,11 +25,13 @@ email_body = "This is a test email sent from Apache Airflow using SMTP!"
 
 send_email_task = EmailOperator(
     task_id='send_email_task',
-    to='tarunratan6@gmail.com',  # Change this to your recipient's email address
+    to='recipient@example.com',  # Change this to your recipient's email address
     subject=email_subject,
     html_content=email_body,
-    smtp_conn_id='smtp_gmail',  # Connection ID for SMTP connection
     dag=dag,
 )
+
+# Set up SMTP connection ID
+send_email_task.smtp_conn_id = 'smtp_gmail'
 
 send_email_task
