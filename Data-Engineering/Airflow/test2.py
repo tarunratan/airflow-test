@@ -28,7 +28,7 @@ send_email_task = EmailOperator(
     html_content='<p>This is a test email sent from Airflow DAG using Gmail SMTP.</p>',
     dag=dag,
     mime_charset='utf-8',
-    smtp_conn_id='smtp_gmail'  # Replace with the name of your SMTP connection in Airflow
+    smtp_conn_id= 'smtp_gmail'  # Replace with the name of your SMTP connection in Airflow
 )
 
 send_email_task
