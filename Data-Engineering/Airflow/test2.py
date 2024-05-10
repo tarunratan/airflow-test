@@ -1,28 +1,34 @@
 from airflow import DAG
-from airflow.providers.smtp.operators.smtp import SmtpOperator
-from datetime import datetime
+from airflow.operators.email_operator import EmailOperator
+from airflow.utils.dates import days_ago
+from datetime import timedelta
 
 default_args = {
     'owner': 'airflow',
-    'start_date': datetime(2024, 5, 10),
+    'depends_on_past': False,
+    'email_on_failure': True,
+    'email_on_retry': False,
+    'retries': 1,
+    'retry_delay': timedelta(minutes=5),
 }
 
 dag = DAG(
-    'smtp_test2',
+    'send_email_example',
     default_args=default_args,
-    description='A simple DAG to test SMTP connection',
-    schedule_interval=None,  # Run this DAG manually
+    description='A simple DAG to send a test email',
+    schedule_interval=timedelta(days=1),
+    start_date=days_ago(1),
+    catchup=False,
 )
 
-test_email_body = "This is a test email to verify SMTP connection."
-
-send_test_email = SmtpOperator(
-    task_id='send_test_email',
-    to='tarunratan6@gmail.com',  # Replace with your email address
-    subject="Airflow SMTP Test",
-    html_content=test_email_body,
+send_email_task = EmailOperator(
+    task_id='send_email_task',
+    to='tarunrata6@gmail.com',  # Replace with your recipient email address
+    subject='Test Email from Airflow',
+    html_content='<p>This is a test email sent from Airflow DAG using Gmail SMTP.</p>',
     dag=dag,
-    smtp_conn_id='smtp_gmail',  # Use the same connection ID as your original DAG
+    mime_charset='utf-8',
+    smtp_conn_id='gmail_smtp'  # Replace with the name of your SMTP connection in Airflow
 )
 
-send_test_email
+send_email_task
