@@ -10,10 +10,10 @@ def print_hello():
 def my_email_func():
     smtp = SMTP()
     smtp.set_debuglevel(10)
-    smtp.connect('smtp.gmail.com', 587)
-    smtp.login('raviteja.panugundla@gmail.com', 'orqbirojkqnlhogs')
+    smtp.connect('smtp.its.hpecorp.net', 25)
+    #smtp.login('raviteja.panugundla@gmail.com', 'orqbirojkqnlhogs')
 
-    from_addr = "raviteja.panugundla@gmail.com"
+    from_addr = "raviteja.panugundla@hpe.com"
     to_addr = "tarunratan6@gmail.com"
 
     subj = "hello"
