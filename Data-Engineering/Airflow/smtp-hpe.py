@@ -11,7 +11,7 @@ def my_email_func():
     smtp = SMTP()
     smtp.set_debuglevel(10)
     smtp.connect('smtp.its.hpecorp.net', 25)
-    #smtp.login('raviteja.panugundla@gmail.com', 'orqbirojkqnlhogs')
+    #smtp.login('raviteja.panugundla@gmail.com', 'false')
 
     from_addr = "raviteja.panugundla@hpe.com"
     to_addr = "tarunratan6@gmail.com"
