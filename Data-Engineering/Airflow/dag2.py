@@ -1,9 +1,7 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from datetime import datetime
-
-# Import the custom function from the other DAG
-from custom_function_dag import my_custom_function
+from custom_functions import my_custom_function  # Import the function
 
 default_args = {
     'owner': 'airflow',
