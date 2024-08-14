@@ -1,19 +1,31 @@
 from airflow import DAG
-from airflow.operators.python import PythonOperator
-from airflow.utils.dates import days_ago
-from utils import my_custom_function
+from airflow.operators.python_operator import PythonOperator
+from datetime import datetime
 
-with DAG(
-    dag_id='my_dag_1',
-    start_date=days_ago(2),
+def my_custom_function():
+    return "Hello from the custom function!"
+
+default_args = {
+    'owner': 'airflow',
+    'start_date': datetime(2023, 1, 1),
+    'retries': 1,
+}
+
+dag = DAG(
+    'custom_function_dag',
+    default_args=default_args,
+    description='A DAG with a custom function',
     schedule_interval=None,
-) as dag:
+)
 
-    def my_task(**kwargs):
-        result = my_custom_function(10, 5)
-        print(f"Result: {result}")
+def test_function(**kwargs):
+    result = my_custom_function()
+    print(result)
+    return result
 
-    task1 = PythonOperator(
-        task_id='my_task',
-        python_callable=my_task
-    )
+test_task = PythonOperator(
+    task_id='test_function_task',
+    python_callable=test_function,
+    provide_context=True,
+    dag=dag,
+)
