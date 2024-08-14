@@ -1,19 +1,31 @@
 from airflow import DAG
-from airflow.operators.python import PythonOperator
-from airflow.utils.dates import days_ago
-from utils import my_custom_function
+from airflow.operators.python_operator import PythonOperator
+from datetime import datetime
 
-with DAG(
-    dag_id='my_dag_2',
-    start_date=days_ago(2),
+# Import the custom function from the other DAG
+from custom_function_dag import my_custom_function
+
+default_args = {
+    'owner': 'airflow',
+    'start_date': datetime(2023, 1, 1),
+    'retries': 1,
+}
+
+dag = DAG(
+    'import_function_dag',
+    default_args=default_args,
+    description='A DAG that imports a custom function from another DAG',
     schedule_interval=None,
-) as dag:
+)
 
-    def another_task(**kwargs):
-        result = my_custom_function(20, 3)
-        print(f"Result: {result}")
+def use_imported_function(**kwargs):
+    result = my_custom_function()
+    print(f"Result from imported function: {result}")
+    return result
 
-    task2 = PythonOperator(
-        task_id='another_task',
-        python_callable=another_task
-    )
+import_task = PythonOperator(
+    task_id='use_imported_function_task',
+    python_callable=use_imported_function,
+    provide_context=True,
+    dag=dag,
+)
