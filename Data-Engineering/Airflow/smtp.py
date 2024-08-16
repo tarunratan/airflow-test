@@ -18,7 +18,7 @@ dag = DAG(
     'send_email',
     default_args=default_args,
     description='A secure DAG to send an email using SMTP',
-    schedule_interval=timedelta(days=1),
+    schedule_interval='10 6 * * *',
 )
 
 email_subject = "Test Email from Airflow"
