@@ -13,7 +13,7 @@ default_args = {
 
 # Define the DAG
 with DAG(
-    dag_id='k8s_pod_operator_hello_world',
+    dag_id='k8stest2',
     default_args=default_args,
     description='DAG to run a pod in Kubernetes to execute hello world commands',
     schedule_interval=None,
