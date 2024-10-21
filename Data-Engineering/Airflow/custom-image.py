@@ -19,6 +19,7 @@ with DAG(
     schedule_interval=None,
     start_date=days_ago(1),
     catchup=False,
+    access_control={'All': {'can_read', 'can_edit'}}
 ) as dag:
 
     # Define the KubernetesPodOperator
