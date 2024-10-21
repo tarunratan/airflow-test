@@ -30,8 +30,8 @@ with DAG(
         arguments=["echo 'Hello, World!' && echo 'This is a test command'"],  # Commands to run in the pod
         labels={"app": "hello-world-test"},
         name="opensource-custom-image",
-        task_id="opensource_hello_world_in_k8s",
-        is_delete_operator_pod=True,  # Clean up the pod after it finishes running
+        task_id="run_opensource_world_in_k8s",
+        is_delete_operator_pod=False,  # Clean up the pod after it finishes running
         container_resources=k8s.V1ResourceRequirements(  # Updated to use container_resources
             limits={"cpu": "200m", "memory": "256Mi"},  # Resource limits
             requests={"cpu": "100m", "memory": "128Mi"}  # Resource requests
