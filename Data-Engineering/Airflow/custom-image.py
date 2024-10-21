@@ -1,0 +1,40 @@
+from airflow import DAG
+from airflow.utils.dates import days_ago
+from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
+from kubernetes.client import models as k8s
+from datetime import timedelta
+
+# Default arguments for the DAG
+default_args = {
+    'owner': 'airflow',
+    'retries': 1,
+    'retry_delay': timedelta(minutes=5),
+}
+
+# Define the DAG
+with DAG(
+    dag_id='k8s_pod_operator_hello_world',
+    default_args=default_args,
+    description='DAG to run a pod in Kubernetes to execute hello world commands',
+    schedule_interval=None,
+    start_date=days_ago(1),
+    catchup=False,
+) as dag:
+
+    # Define the KubernetesPodOperator
+    run_hello_world_in_k8s = KubernetesPodOperator(
+        namespace='airflow-hpe',  # Specify the namespace for your Kubernetes cluster
+        image='alpine:latest',  # Open-source Alpine Linux image
+        cmds=["sh", "-c"],
+        arguments=["echo 'Hello, World!' && echo 'This is a test command'"],  # Commands to run in the pod
+        labels={"app": "hello-world-test"},
+        name="run-hello-world-pod",
+        task_id="run_hello_world_in_k8s",
+        is_delete_operator_pod=True,  # Clean up the pod after it finishes running
+        resources=k8s.V1ResourceRequirements(
+            limits={"cpu": "200m", "memory": "256Mi"},  # Resource limits
+            requests={"cpu": "100m", "memory": "128Mi"}  # Resource requests
+        ),
+    )
+
+    run_hello_world_in_k8s
