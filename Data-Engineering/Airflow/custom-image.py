@@ -23,7 +23,7 @@ with DAG(
 ) as dag:
 
     # Define the KubernetesPodOperator
-    run_hello_world_in_k8s = KubernetesPodOperator(
+    run_opensource_world_in_k8s = KubernetesPodOperator(
         namespace='raviteja',  # Specify the namespace for your Kubernetes cluster
         image='alpine:latest',  # Open-source Alpine Linux image
         cmds=["sh", "-c"],
