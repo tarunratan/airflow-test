@@ -24,7 +24,7 @@ with DAG(
 
     # Define the KubernetesPodOperator
     run_hello_world_in_k8s = KubernetesPodOperator(
-        namespace='dev1',  # Specify the namespace for your Kubernetes cluster
+        namespace='raviteja',  # Specify the namespace for your Kubernetes cluster
         image='alpine:latest',  # Open-source Alpine Linux image
         cmds=["sh", "-c"],
         arguments=["echo 'Hello, World!' && echo 'This is a test command'"],  # Commands to run in the pod
