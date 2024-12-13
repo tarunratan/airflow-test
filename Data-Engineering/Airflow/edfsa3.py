@@ -4,9 +4,9 @@ from airflow.providers.amazon.aws.transfers.local_to_s3 import LocalFilesystemTo
 from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
 
-# Define the default arguments
+# Default arguments for the DAG
 default_args = {
-    'owner': 'your_name',
+    'owner': 'raviteja',
     'depends_on_past': False,
     'email_on_failure': False,
     'email_on_retry': False,
