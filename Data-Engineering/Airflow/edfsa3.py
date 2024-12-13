@@ -49,7 +49,7 @@ with DAG(
     upload_logs_to_s3 = LocalFilesystemToS3Operator(
         task_id='upload_logs',
         filename="{{ ti.xcom_pull(task_ids='identify_log_file', key='log_file_path') }}",
-        key='dag_logs/{{ ds }}/log.txt',  # S3 key; customize as needed
+        key='dag_logs/log.txt',  # S3 key; customize as needed
         bucket_name='prestodemo',  # Replace with your bucket name
         aws_conn_id='edfs3',  # Airflow connection ID for S3
         replace=True,
